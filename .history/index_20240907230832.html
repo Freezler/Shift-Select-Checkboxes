@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hold Shift to Check Multiple Checkboxes</title>
+  <link rel="icon" href="https://fav.farm/🔥" />
+</head>
+
+<body>
+  <style>
+    :root {
+      --background-color: rgb(28, 2, 37);
+      --border-color: hsla(292, 94%, 6%, 0.8);
+
+    }
+
+    html {
+      font-family: sans-serif;
+      font-weight: 500;
+      background: var(--background-color);
+      user-select: none;
+    }
+
+
+
+
+    .inbox {
+      max-width: 400px;
+      margin: 20px auto;
+      gap: 0px;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      background: var(--background-color);
+    }
+
+    .item {
+      display: flex;
+      transition: all 0.3s ease-in-out;
+      border-inline-start: 4px solid var(--border-color);
+      border-block-start: 4px solid rgba(136, 0, 255, 0.497);
+      box-shadow: 1px 2px 24px rgba(244, 249, 232, 0.447);
+      border-bottom: 4px wavey #F1F1F1;
+      color: white;
+      border-radius: 8px;
+    }
+
+    .item:last-child {
+      border-bottom: 0;
+    }
+
+
+
+    input[type="checkbox"] {
+      accent-color: #7c0529ef;
+    }
+
+    input:checked+p {
+      background: #a3045131;
+      text-decoration: line-through;
+      color: cornsilk;
+      border-inline: 8px solid #5e057cef;
+      transition: all 0.9s ease-in-out;
+      border-radius: 99px;
+      margin-inline: 48px;
+
+
+    }
+
+
+
+    .inbox .item:nth-child(even) {
+      transform: perspective(1500px) rotateX(24deg) translateY(3px) scale(1.001);
+
+    }
+
+    .inbox .item:nth-child(odd) {
+      transform: perspective(1500px) rotateX(-24deg) translateY (3px) scale(1.001);
+
+    }
+
+    .item:nth-child(odd):hover {
+      transform: perspective(400px) rotateX(24deg) translateY(3px);
+
+    }
+
+    .item:nth-child(even):hover {
+      transform: perspective(400px) rotateX(24deg) translateY(3px);
+
+    }
+
+    .item:nth-child(even) {
+      transform: perspective(1500px) rotateX(-24deg) translateY(3px);
+
+    }
+
+    p {
+      margin: 0;
+      padding: 20px;
+      transition: background 0.3s;
+      flex: 1;
+
+      font-size: 20px;
+      font-weight: 200;
+      border-inline: 6px solid #23cc9178;
+      border-inline-end: 4px solid #23cc9178;
+      border-start-end-radius: 6px;
+    }
+  </style>
+  <!--  The following is a common layout you would see in an email client.
+        When a user clicks a checkbox, holds Shift, and then clicks another checkbox a few rows down, all the checkboxes in between those two checkboxes should be checked.
+
+  -->
+  <div class="inbox">
+    <div class="item">
+      <input type="checkbox">
+      <p>This is an inbox layout.</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Check one item</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Hold down your Shift key</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Check a lower item</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Everything in between should also be set to checked</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Try to do it without any libraries</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Just regular JavaScript</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Good Luck!</p>
+    </div>
+    <div class="item">
+      <input type="checkbox">
+      <p>Don't forget to tweet your result!</p>
+    </div>
+  </div>
+
+  <script>
+    const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+
+    checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck))
+
+    let lastChecked;
+
+    function handleCheck(e) {
+      // check for shift-press && checked
+      let inBetween = false;
+      // loop over every single checkbox
+      if (e.shiftKey && this.checked) {
+        checkboxes.forEach(checkbox => {
+          if (checkbox === this || checkbox === lastChecked) {
+            inBetween = !inBetween
+          }
+          if (inBetween) {
+            checkbox.checked = true
+          }
+        })
+      }
+
+      if (e.shiftKey && this.checked) {
+        console.log("haha it's clicked with shift down AND checked!")
+      }
+      if (e.shiftKey && !this.checked) {
+        console.log("haha it's clicked with shift down but not checked!")
+      }
+      lastChecked = this;
+    }
+
+  </script>
+</body>
+
+</html>
